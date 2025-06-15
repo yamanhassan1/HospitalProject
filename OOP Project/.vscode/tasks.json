@@ -1,0 +1,27 @@
+{
+  "version": "2.0.0",
+  "tasks": [
+    {
+      "label": "build-multiple-files",
+      "type": "shell",
+      "command": "g++",
+      "args": [
+        "main.cpp",
+        "authentication.cpp",
+        "billing.cpp",
+        "hospital.cpp",
+        "inventory.cpp",
+        "medical.cpp",
+        "person.cpp",
+        "utilities.cpp",
+        "-o",
+        "program",
+      ],
+      "group": {
+        "kind": "build",
+        "isDefault": true
+      },
+      "problemMatcher": ["$gcc"]
+    }
+  ]
+}

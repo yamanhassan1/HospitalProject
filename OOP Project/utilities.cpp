@@ -83,11 +83,32 @@ void createDoctor(Doctor*& doctor) {
     cout << "Enter Full Name: ";
     getline(cin, name);
     
-    cout << "Enter Age: ";
-    cin >> age;
-    cin.ignore();
+    cout << "Enter Gender: ";
+    getline(cin, gender);
+
+    cout << "Enter Department: ";
+    getline(cin, department);
+
+    cout << "Enter Join Date (DD/MM/YYYY): ";
+    getline(cin, joinDate);
     
-    // ... (additional input collection)
+    cout << "Enter Salary: $";
+    cin >> salary;
+    cin.ignore();
+
+    cout << "Enter Specialization: ";
+    getline(cin, specialization);
+
+    cout << "Enter Licience Number: ";
+    cin >> license;
+    cin.ignore();
+
+    cout << "Enter Address: ";
+    getline(cin, address);
+    
+    cout << "Enter Contact Number: ";
+    getline(cin, contact);
+
     
     doctor = new Doctor(id, name, age, gender, address, contact, salary, department, 
                        joinDate, specialization, license);
@@ -106,7 +127,33 @@ void createNurse(Nurse*& nurse) {
     cin >> id;
     cin.ignore();
     
-    // ... (additional input collection)
+    cout << "Enter Full Name: ";
+    getline(cin, name);
+    
+    cout << "Enter Gender: ";
+    getline(cin, gender);
+
+    cout << "Enter Department: ";
+    getline(cin, department);
+
+    cout << "Enter Join Date (DD/MM/YYYY): ";
+    getline(cin, joinDate);
+    
+    cout << "Enter Salary: $";
+    cin >> salary;
+    cin.ignore();
+
+    cout << "Enter Shift Time: ";
+    getline(cin, shift);
+
+    cout << "Enter Qualification: ";
+    getline(cin, qualification);
+
+    cout << "Enter Address: ";
+    getline(cin, address);
+    
+    cout << "Enter Contact Number: ";
+    getline(cin, contact);
     
     nurse = new Nurse(id, name, age, gender, address, contact, salary, department, 
                      joinDate, shift, qualification);
@@ -123,8 +170,17 @@ void createMedicine(Medicine*& medicine) {
     // Get input for each field
     cout << "Enter Medicine Name: ";
     getline(cin, name);
-    
-    // ... (additional input collection)
+
+    cout << "Enter Price: ";
+    cin >> price;
+    cin.ignore();
+
+    cout << "Enter Quantity: ";
+    cin >> quantity;
+    cin.ignore();
+
+    cout << "Enter Expiry (DD/MM/YYYY): ";
+    getline(cin, expiry);
     
     medicine = new Medicine(name, price, quantity, expiry);
 }

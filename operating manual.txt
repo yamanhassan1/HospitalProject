@@ -1,0 +1,113 @@
+# Hospital Management System - Operating Manual
+
+## Overview
+The Hospital Management System is a comprehensive C++ application designed to streamline healthcare facility operations. It provides modules for patient management, staff administration, medical records, inventory control, and billing - all through an intuitive console interface.
+
+## Key Features
+1. **Role-Based Access Control**: Secure login for Admins, Doctors, Nurses, and Patients
+2. **Patient Management**: Registration, medical history tracking, appointment scheduling
+3. **Staff Management**: Doctor and nurse profiles, schedules, and assignments
+4. **Medical Services**: Prescriptions, diagnosis records, treatment plans
+5. **Facility Management**: Room assignments and medicine inventory
+6. **Billing System**: Service charges, medicine costs, and payment processing
+
+## System Components
+
+### Core Modules:
+1. **Authentication System** - Handles user login and password management
+2. **Personnel Management** - Manages patients, doctors, and nurses
+3. **Medical Records** - Tracks appointments, prescriptions, and diagnoses
+4. **Inventory Control** - Manages medicine stock and room availability
+5. **Billing System** - Handles patient invoices and payments
+
+## How to Operate
+
+### 1. Starting the System
+1. Compile all source files (`authentication.cpp`, `billing.cpp`, `hospital.cpp`, etc.)
+2. Run the executable
+3. The main menu will appear with login options
+
+### 2. User Roles and Access
+
+#### Admin Privileges:
+- Register new staff (doctors/nurses)
+- View all patient and staff records
+- Manage medicine inventory
+- Handle room assignments
+- Oversee billing operations
+
+#### Doctor Privileges:
+- Manage available time slots
+- View and complete appointments
+- Prescribe medications
+- Create medical records
+- Update personal information
+
+#### Nurse Privileges:
+- Assist specific doctors
+- Monitor assigned patients
+- View room assignments
+- Update contact details
+
+#### Patient Privileges:
+- Book appointments
+- View medical history
+- Check prescriptions
+- Pay bills
+- Update personal information
+
+### 3. Quick Access Mode (Demo)
+For demonstration without login:
+1. Select "Quick Access" from main menu
+2. Choose from:
+   - Register new patients
+   - View all records
+   - Perform patient/doctor/nurse operations
+   - Manage inventory
+   - Handle billing
+
+### 4. Common Operations
+
+#### For Patients:
+1. **Book Appointments**: Select doctor and available time slot
+2. **View Medical History**: Check past diagnoses and treatments
+3. **Manage Prescriptions**: View prescribed medications
+4. **Update Information**: Change address or contact details
+
+#### For Medical Staff:
+1. **Doctors**:
+   - Add available time slots
+   - Complete appointments with diagnosis notes
+   - Prescribe medications
+   - Create treatment plans
+
+2. **Nurses**:
+   - Assist specific doctors
+   - Monitor patient status
+   - Check room assignments
+
+#### For Administrators:
+1. **Add Staff**: Register new doctors or nurses
+2. **Inventory Management**:
+   - Add new medicines
+   - Check stock levels
+   - Update quantities
+3. **Room Management**:
+   - Add new rooms
+   - Assign patients to rooms
+   - View room status
+4. **Billing**:
+   - Create patient bills
+   - Add services and medicines
+   - Process payments
+
+## Navigation Tips
+- Use the numbered menu system to select options
+- Follow on-screen prompts for data entry
+- Press Enter to continue after each operation
+- The system provides clear feedback for each action
+
+## Security Note
+The demonstration version uses simplified authentication. In a production environment, proper password encryption and secure storage would be implemented.
+
+This system provides a complete solution for managing hospital operations through an organized, role-based interface that maintains clear separation of duties while ensuring all healthcare management needs are met.

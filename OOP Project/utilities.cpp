@@ -207,33 +207,93 @@ void patientOperations(HospitalSystem& hospital, Patient* patient) {
         // Display menu options
         cout << "\n1. Book Appointment\n";
         cout << "2. View Appointments\n";
-        // ... (other options)
-        
+        cout << "3. View Prescriptions\n";
+        cout << "4. View Medical Records\n";
+        cout << "5. Add Medical Condition\n";
+        cout << "6. Update Contact Info\n";
+        cout << "7. View Details\n";
+        cout << "8. Assign to Room\n";
+        cout << "9. Discharge from Room\n";
+        cout << "0. Back to Main Menu\n";
         cout << "Enter your choice: ";
         cin >> choice;
         cin.ignore();
 
-        switch(choice) {
-            case 1: {  // Book appointment
+         switch(choice) {
+            case 1: {
                 int doctorId;
                 string dateTime;
                 cout << "\nEnter Doctor ID: ";
                 cin >> doctorId;
-                cout << "Enter Date/Time: ";
+                cout << "Enter Date/Time (DD/MM/YYYY HH:MM): ";
                 getline(cin, dateTime);
                 patient->scheduleAppointment(doctorId, dateTime);
                 break;
             }
-            // ... (other cases)
-            case 0:  // Exit
+            case 2:
+                patient->displayAppointments();
+                break;
+            case 3:
+                patient->displayPrescriptions();
+                break;
+            case 4:
+                patient->displayMedicalRecords();
+                break;
+            case 5: {
+                string disease;
+                cout << "\nEnter Medical Condition: ";
+                getline(cin, disease);
+                patient->addDisease(disease);
+                break;
+            }
+            case 6: {
+                string address, contact;
+                cout << "\nEnter New Address: ";
+                getline(cin, address);
+                cout << "Enter New Contact Number: ";
+                getline(cin, contact);
+                patient->updateContactInfo(address, contact);
+                break;
+            }
+            case 7:
+                patient->displayDetails();
+                break;
+            case 8: {
+                string type;
+                cout << "\nEnter Room Type (General/ICU/Private): ";
+                getline(cin, type);
+                
+                Room* room;
+                hospital.findAvailableRoom(type, room);
+                if (room) {
+                    room->assignPatient(patient->getId());
+                    patient->assignRoom(room->getId());
+                } else {
+                    cout << "\nNo available " << type << " rooms found!\n";
+                }
+                break;
+            }
+            case 9: {
+                if (patient->getRoomId() != -1) {
+                    Room* room;
+                    hospital.findRoom(patient->getRoomId(), room);
+                    if (room) {
+                        room->vacateRoom();
+                    }
+                    patient->dischargeFromRoom();
+                } else {
+                    cout << "\nPatient is not assigned to any room!\n";
+                }
+                break;
+            }
+            case 0:
                 return;
             default:
-                cout << "\nInvalid choice!\n";
+                cout << "\nInvalid choice! Please try again.\n";
         }
         pressEnterToContinue();
     } while (choice != 0);
 }
-
 // Handles all doctor-related operations
 void doctorOperations(Doctor* doctor) {
     displayHeader("DOCTOR OPERATIONS");
@@ -242,17 +302,81 @@ void doctorOperations(Doctor* doctor) {
     do {
         // Display menu options
         cout << "\n1. Add Available Slot\n";
-        // ... (other options)
+        cout << "2. View Appointments\n";
+        cout << "3. Complete Appointment\n";
+        cout << "4. Prescribe Medication\n";
+        cout << "5. Create Medical Record\n";
+        cout << "6. Update Contact Info\n";
+        cout << "7. View Details\n";
+        cout << "0. Back to Main Menu\n";
+        cout << "Enter your choice: ";
+        cin >> choice;
+        cin.ignore();
         
         switch(choice) {
-            case 1: {  // Add time slot
+            case 1: {
                 string slot;
-                cout << "\nEnter Available Time Slot: ";
+                cout << "\nEnter Available Time Slot (e.g., Monday 9:00 AM): ";
                 getline(cin, slot);
                 doctor->addAvailableSlot(slot);
                 break;
             }
-            // ... (other cases)
+            case 2:
+                doctor->viewAppointments();
+                break;
+            case 3: {
+                int apptId;
+                string notes;
+                cout << "\nEnter Appointment ID to complete: ";
+                cin >> apptId;
+                cin.ignore();
+                cout << "Enter Diagnosis Notes: ";
+                getline(cin, notes);
+                doctor->completeAppointment(apptId, notes);
+                break;
+            }
+            case 4: {
+                int patientId;
+                string med, dosage;
+                cout << "\nEnter Patient ID: ";
+                cin >> patientId;
+                cin.ignore();
+                cout << "Enter Medication Name: ";
+                getline(cin, med);
+                cout << "Enter Dosage Instructions: ";
+                getline(cin, dosage);
+                doctor->prescribeMedication(patientId, med, dosage);
+                break;
+            }
+            case 5: {
+                int patientId;
+                string diagnosis, plan;
+                cout << "\nEnter Patient ID: ";
+                cin >> patientId;
+                cin.ignore();
+                cout << "Enter Diagnosis: ";
+                getline(cin, diagnosis);
+                cout << "Enter Treatment Plan: ";
+                getline(cin, plan);
+                doctor->addAppointment(patientId, "");
+                break;
+            }
+            case 6: {
+                string address, contact;
+                cout << "\nEnter New Address: ";
+                getline(cin, address);
+                cout << "Enter New Contact Number: ";
+                getline(cin, contact);
+                doctor->updateContactInfo(address, contact);
+                break;
+            }
+            case 7:
+                doctor->displayDetails();
+                break;
+            case 0:
+                return;
+            default:
+                cout <<"\nInvalid choice! Please try again.\n";
         }
         pressEnterToContinue();
     } while (choice != 0);
@@ -266,17 +390,45 @@ void nurseOperations(Nurse* nurse) {
     do {
         // Display menu options
         cout << "\n1. Assist Doctor\n";
-        // ... (other options)
+        cout << "2. Monitor Patient\n";
+        cout << "3. Update Contact Info\n";
+        cout << "4. View Details\n";
+        cout << "0. Back to Main Menu\n";
+        cout << "Enter your choice: ";
+        cin >> choice;
+        cin.ignore();
         
         switch(choice) {
-            case 1: {  // Assist doctor
+            case 1: {
                 int doctorId;
-                cout << "\nEnter Doctor ID: ";
+                cout << "\nEnter Doctor ID to Assist: ";
                 cin >> doctorId;
                 nurse->assistDoctor(doctorId);
                 break;
             }
-            // ... (other cases)
+            case 2: {
+                int patientId;
+                cout << "\nEnter Patient ID to Monitor: ";
+                cin >> patientId;
+                nurse->monitorPatient(patientId);
+                break;
+            }
+            case 3: {
+                string address, contact;
+                cout << "\nEnter New Address: ";
+                getline(cin, address);
+                cout << "Enter New Contact Number: ";
+                getline(cin, contact);
+                nurse->updateContactInfo(address, contact);
+                break;
+            }
+            case 4:
+                nurse->displayDetails();
+                break;
+            case 0:
+                return;
+            default:
+                cout << "\nInvalid choice! Please try again.\n";
         }
         pressEnterToContinue();
     } while (choice != 0);
@@ -290,16 +442,71 @@ void inventoryOperations(HospitalSystem& hospital) {
     do {
         // Display menu options
         cout << "\n1. Add New Medicine\n";
-        // ... (other options)
-        
+        cout << "2. View Medicine Inventory\n";
+        cout << "3. Check Medicine Availability\n";
+        cout << "4. Update Medicine Stock\n";
+        cout << "5. Add New Room\n";
+        cout << "6. View Room Status\n";
+        cout << "0. Back to Main Menu\n";
+        cout << "Enter your choice: ";
+        cin >> choice;
+        cin.ignore();
+
         switch(choice) {
-            case 1: {  // Add medicine
+            case 1: {
                 Medicine* med;
                 createMedicine(med);
                 hospital.addMedicine(med);
                 break;
             }
-            // ... (other cases)
+            case 2:
+                hospital.displayAllMedicines();
+                break;
+            case 3: {
+                int id, quantity;
+                cout << "\nEnter Medicine ID: ";
+                cin >> id;
+                cout << "Enter Required Quantity: ";
+                cin >> quantity;
+                
+                Medicine* med;
+                hospital.findMedicine(id, med);
+                if (med) {
+                    med->checkAvailability(quantity);
+                } else {
+                    cout << "\nMedicine not found!\n";
+                }
+                break;
+            }
+            case 4: {
+                int id, quantity;
+                cout << "\nEnter Medicine ID: ";
+                cin >> id;
+                cout << "Enter Quantity to Add/Deduct (use - for deduction): ";
+                cin >> quantity;
+                
+                Medicine* med;
+                hospital.findMedicine(id, med);
+                if (med) {
+                    med->updateStock(quantity);
+                } else {
+                    cout << "\nMedicine not found!\n";
+                }
+                break;
+            }
+            case 5: {
+                Room* room;
+                createRoom(room);
+                hospital.addRoom(room);
+                break;
+            }
+            case 6:
+                hospital.displayAllRooms();
+                break;
+            case 0:
+                return;
+            default:
+                cout << "\nInvalid choice! Please try again.\n";
         }
         pressEnterToContinue();
     } while (choice != 0);
@@ -313,10 +520,17 @@ void billingOperations(HospitalSystem& hospital) {
     do {
         // Display menu options
         cout << "\n1. Create New Bill\n";
-        // ... (other options)
-        
+        cout << "2. Add Service to Bill\n";
+        cout << "3. Add Medicine to Bill\n";
+        cout << "4. Process Payment\n";
+        cout << "5. View All Bills\n";
+        cout << "0. Back to Main Menu\n";
+        cout << "Enter your choice: ";
+        cin >> choice;
+        cin.ignore();
+
         switch(choice) {
-            case 1: {  // Create bill
+            case 1: {
                 int patientId;
                 cout << "\nEnter Patient ID: ";
                 cin >> patientId;
@@ -324,7 +538,75 @@ void billingOperations(HospitalSystem& hospital) {
                 hospital.createBill(patientId, bill);
                 break;
             }
-            // ... (other cases)
+            case 2: {
+                int patientId;
+                string service;
+                double cost;
+                
+                cout << "\nEnter Patient ID: ";
+                cin >> patientId;
+                cin.ignore();
+                cout << "Enter Service Description: ";
+                getline(cin, service);
+                cout << "Enter Service Cost: $";
+                cin >> cost;
+                
+                Billing* bill;
+                hospital.findPatientBill(patientId, bill);
+                if (bill) {
+                    bill->addService(service, cost);
+                } else {
+                    cout << "\nNo unpaid bill found for this patient!\n";
+                }
+                break;
+            }
+            case 3: {
+                int patientId, medId, quantity;
+                cout << "\nEnter Patient ID: ";
+                cin >> patientId;
+                cout << "Enter Medicine ID: ";
+                cin >> medId;
+                cout << "Enter Quantity: ";
+                cin >> quantity;
+                
+                Billing* bill;
+                hospital.findPatientBill(patientId, bill);
+                Medicine* med;
+                hospital.findMedicine(medId, med);
+                
+                if (bill && med) {
+                    med->checkAvailability(quantity);
+                    bill->addMedicine(medId, quantity, med->getPrice());
+                    med->updateStock(-quantity);
+                } else {
+                    cout << "\nBill or medicine not found!\n";
+                }
+                break;
+            }
+            case 4: {
+                int patientId;
+                double amount;
+                cout << "\nEnter Patient ID: ";
+                cin >> patientId;
+                cout << "Enter Payment Amount: $";
+                cin >> amount;
+                
+                Billing* bill;
+                hospital.findPatientBill(patientId, bill);
+                if (bill) {
+                    bill->processPayment(amount);
+                } else {
+                    cout << "\nNo unpaid bill found for this patient!\n";
+                }
+                break;
+            }
+            case 5:
+                hospital.displayAllBills();
+                break;
+            case 0:
+                return;
+            default:
+                cout << "\nInvalid choice! Please try again.\n";
         }
         pressEnterToContinue();
     } while (choice != 0);
